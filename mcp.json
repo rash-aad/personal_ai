@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "email": {
+      "command": ["python", "-m", "personal_ai.connectors.email_server"],
+      "env": {}
+    },
+    "db": {
+      "command": ["python", "-m", "personal_ai.connectors.db_server"],
+      "env": {"PAI_DB_PATH": "data/business.db"}
+    }
+  }
+}

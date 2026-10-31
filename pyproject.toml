@@ -1,0 +1,21 @@
+[project]
+name = "personal-ai"
+version = "0.1.0"
+description = "A dumb assistant that learns as you use it. Backend: the claude CLI."
+requires-python = ">=3.10"
+dependencies = ["pypdf>=4"]
+
+[project.scripts]
+pai = "pai:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["pai"]
+packages = ["personal_ai"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

@@ -1,0 +1,117 @@
+HOW TO RUN - personal ai
+========================
+
+All commands below are run from the project folder:
+
+    cd ~/Desktop/personal_ai
+
+
+1. ONE-TIME SETUP
+-----------------
+
+a) Create the virtual environment and install (skip if .venv/ already exists):
+
+    python3 -m venv .venv
+    .venv/bin/pip install -e .
+
+   This installs pypdf and the `pai` command into .venv/bin.
+
+b) Make sure the `claude` CLI is on your PATH and logged in:
+
+    claude --version
+
+c) Optional - semantic search (without it, search is keyword-only):
+
+    ollama serve                      # if Ollama isn't already running
+    ollama pull nomic-embed-text
+
+d) Optional - email (needed by the business agent's email skills):
+
+    export PAI_EMAIL_USER="you@gmail.com"
+    export PAI_EMAIL_PASS="your-gmail-app-password"
+    # PAI_IMAP_HOST / PAI_SMTP_HOST default to Gmail
+
+e) Optional - choose the model:
+
+    export PAI_MODEL=claude-sonnet-5
+
+f) Optional - seed the business database from the leads workbook:
+
+    .venv/bin/python scripts/import_leads.py path/to/praxos-reddit-leads.xlsx
+
+
+2. ACTIVATE THE VENV (each new terminal)
+----------------------------------------
+
+    source .venv/bin/activate
+
+   (Or skip this and type .venv/bin/pai instead of pai.)
+
+
+3. RUN IT
+---------
+
+Interactive chat (auto-picks an agent, or prefix with @reader, @writer, ...):
+
+    pai chat
+
+Run one agent on one task:
+
+    pai run reader   "summarise examples/sample.pdf"
+    pai run writer   "write a haiku about otters and save it to haiku.md"
+    pai run browser  "what is the latest python version? cite the url"
+    pai run planner  "read examples/notes.txt then write a launch announcement to launch.md"
+    pai run business "draft a follow-up to the Kochi dentist lead"
+    pai run trainer  "the writer is too chatty, make it concise and ban emojis"
+
+List agents:
+
+    pai agents
+
+
+4. SEARCH INDEX
+---------------
+
+    pai index                          # (re)build index from index/sources.txt
+    pai index --add ~/Desktop/Praxos   # add a file/folder, then index
+    pai search "what does the Core plan cost"
+
+
+5. APPROVALS (queued emails)
+----------------------------
+
+    pai approvals                      # see what's waiting
+    pai approve 3                      # send item 3
+    pai reject 3                       # drop item 3
+
+
+6. MEMORY AND TRAINING
+----------------------
+
+    pai memory                         # facts + rules learned so far
+    pai memory --forget "vim"          # drop facts containing a word
+    pai memory --clear                 # wipe memory
+    pai teach "my dog is called Rex"   # add a fact
+    pai teach --rule "Always answer in one line"
+    pai show writer [--prompt]         # agent definition / full system prompt
+    pai revert writer                  # undo last instruction change
+    pai create-agent                   # make a new agent
+    pai delete-agent <name>
+    pai log                            # recent runs
+
+
+7. TESTS
+--------
+
+    .venv/bin/pytest -q
+
+   Uses a fake model, runs offline in under a second.
+
+
+8. HELP
+-------
+
+    pai --help
+    pai <command> --help
+
+See README.md for details on agents, skills, and how learning works.

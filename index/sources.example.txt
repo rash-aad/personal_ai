@@ -1,0 +1,4 @@
+# one file or folder per line; `pai index` re-reads this list
+# copy to index/sources.txt (not tracked) and add your own absolute paths, e.g.
+# ~/Documents/notes
+# ~/Documents/pitch.pdf
